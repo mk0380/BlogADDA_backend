@@ -136,6 +136,7 @@ app.post('/post',uploadMiddleware.single('file'),async (req,res)=>{
         const post = new Post({
             title,summary,content,cover:newPath,author:req.session.user_id
         })
+        console.log(req.session.user_id);
         const data = await post.save();
         if(data){
         res.json({
