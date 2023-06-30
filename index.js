@@ -15,7 +15,7 @@ const app=express();
 
 env.config();
 
-app.use(session({secret:"abcde12345",resave: false,saveUninitialized: true,  store: new MongoStore.create({mongooseConnection:mongoose.connection})
+app.use(session({secret:"abcde12345",resave: false,saveUninitialized: true,  store: MongoStore.create({mongooseConnection:mongoose.connection})
 }))
 app.use(cors({credentials:true,origin:process.env.FRONTEND_URL}))
 app.use(express.json())
