@@ -5,6 +5,7 @@ const User = require('./models/User')
 const Post = require('./models/Post')
 const bcrypt = require('bcryptjs')
 const session= require('express-session')
+const MongoStore = require('connect-mongo')(session);
 const multer = require('multer')
 const uploadMiddleware = multer({dest:'uploads/'})
 const fs = require('fs')
@@ -14,7 +15,8 @@ const app=express();
 
 env.config();
 
-app.use(session({secret:"abcde12345",resave: false,saveUninitialized: true}))
+app.use(session({secret:"abcde12345",resave: false,saveUninitialized: true,  store: new MongoStore.create(mongooseConnection:mongooseConnection)
+}))
 app.use(cors({credentials:true,origin:process.env.FRONTEND_URL}))
 app.use(express.json())
 app.use('/uploads',express.static(__dirname+'/uploads'))
