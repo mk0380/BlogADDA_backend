@@ -84,7 +84,7 @@ app.post('/login',async(req,res)=>{
         const pass_match = await bcrypt.compareSync(password,user.password)
         if(pass_match){
             req.session.user_id = user._id
-            console.log(req.session.user_id +"1");
+            console.log(req.session.user_id +"LOGIN");
             res.json({
                 success:true,
                 message:"Login successfully",
@@ -136,7 +136,7 @@ app.post('/post',uploadMiddleware.single('file'),async (req,res)=>{
 
         const {title, summary, content} = req.body;
 
-                    console.log(req.session.user_id+"2");
+                    console.log(req.session.user_id+"POST");
 
         const post = new Post({
             title,summary,content,cover:newPath,author:req.session.user_id
