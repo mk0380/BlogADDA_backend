@@ -114,6 +114,7 @@ app.post('/login',async(req,res)=>{
 
 app.post('/logout',(req,res)=>{
     try {
+        console.log(req.session.user_id);
         req.session.destroy();
         res.json({
             success:true,
