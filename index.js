@@ -15,13 +15,6 @@ const app=express();
 
 env.config();
 
-app.use(session({secret:"abcde12345",resave: true,saveUninitialized: false, store: MongoStore.create({
-    mongoUrl:process.env.DB_URL,
-    collectionName:'sessions',
-    ttl:1*24*60*60,
-    autoRemove:'native',
-    })}))
-
 app.use(cors({credentials:true,origin:process.env.FRONTEND_URL}))
 app.use(express.json())
 app.use('/uploads',express.static(__dirname+'/uploads'))
@@ -35,6 +28,13 @@ const url = process.env.DB_URL
 mongoose.connect(url).then(()=>{
     console.log("Database connected...");
 })
+
+app.use(session({secret:"abcde12345",resave: false,saveUninitialized: true, store: MongoStore.create({
+    mongoUrl:url,
+    collectionName:'sessions',
+    ttl:1*24*60*60,
+    autoRemove:'native',
+    })}))
 
 
 app.post('/register',async(req,res)=>{
