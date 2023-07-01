@@ -135,7 +135,7 @@ app.post('/post',uploadMiddleware.single('file'),async (req,res)=>{
         fs.renameSync(path, newPath) 
 
         const {title, summary, content} = req.body;
-
+                    console.log("POST")
                     console.log(req.session.user_id+"POST");
 
         const post = new Post({
