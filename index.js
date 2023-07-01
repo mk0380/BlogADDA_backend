@@ -29,7 +29,7 @@ mongoose.connect(url).then(()=>{
     console.log("Database connected...");
 })
 
-app.use(session({secret:"abcde12345",resave: true,saveUninitialized: true, store: MongoStore.create({
+app.use(session({secret:"abcde12345",resave: false,saveUninitialized: false, store: MongoStore.create({
     mongoUrl:url,
     collectionName:'sessions',
     ttl:1*24*60*60,
