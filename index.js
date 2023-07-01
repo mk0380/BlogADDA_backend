@@ -34,6 +34,7 @@ app.use(session({secret:"abcde12345",resave: false,saveUninitialized: false, sto
     collectionName:'sessions',
     ttl:1*24*60*60,
     autoRemove:'native',
+    cookie:{secure:false}
     })}))
 
 
