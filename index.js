@@ -15,12 +15,12 @@ const app=express();
 
 env.config();
 
-app.use(session({secret:"abcde12345",resave: false,saveUninitialized: false, store: MongoStore.create({
+app.use(session({secret:"abcde12345",resave: true,saveUninitialized: false, store: MongoStore.create({
     mongoUrl:process.env.DB_URL,
     collectionName:'sessions',
     ttl:1*24*60*60,
     autoRemove:'native',
-    cookie:{secure:true}})}))
+    })}))
 
 app.use(cors({credentials:true,origin:process.env.FRONTEND_URL}))
 app.use(express.json())
