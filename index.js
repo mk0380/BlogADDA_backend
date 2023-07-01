@@ -19,7 +19,8 @@ app.use(session({secret:"abcde12345",resave: false,saveUninitialized: false, sto
     mongoUrl:process.env.DB_URL,
     collectionName:'sessions',
     ttl:1*24*60*60,
-    autoRemove:'native'})}))
+    autoRemove:'native',
+    cookie:{secure:true}})}))
 
 app.use(cors({credentials:true,origin:process.env.FRONTEND_URL}))
 app.use(express.json())
