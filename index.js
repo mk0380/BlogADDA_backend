@@ -137,7 +137,7 @@ app.post('/post',uploadMiddleware.single('file'),async (req,res)=>{
 
         const {title, summary, content} = req.body;
                     console.log("POST")
-                    console.log(req.session+"POST");
+                    console.log(req.session[1]+"POST");
 
         const post = new Post({
             title,summary,content,cover:newPath,author:req.session.user_id
