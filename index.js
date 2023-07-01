@@ -112,9 +112,9 @@ app.post('/login',async(req,res)=>{
     }
    })
 
-app.post('/logout', (req,res)=>{
+app.post('/logout',async (req,res)=>{
     try {
-        req.session.destroy();
+        await req.session.destroy();
         res.json({
             success:true,
             message:"Logout successfully"
