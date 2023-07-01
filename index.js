@@ -177,6 +177,7 @@ app.get('/post/:id', async(req,res)=>{
     try {
         const {id} = req.params
         const data = await Post.findById(id).populate('author','username')
+        console.log(data);
         res.json({
             success:true,
             data:data
