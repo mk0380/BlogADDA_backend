@@ -85,7 +85,8 @@ app.post('/login',async(req,res)=>{
        if(user){
         const pass_match = await bcrypt.compareSync(password,user.password)
         if(pass_match){
-            req.session.user_id = user._id
+            req.session.user_id = user._id;
+            req.session.save();
             console.log(req.session.user_id +"LOGIN");
             res.json({
                 success:true,
