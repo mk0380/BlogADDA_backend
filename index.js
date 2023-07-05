@@ -29,12 +29,14 @@ mongoose.connect(url).then(()=>{
     console.log("Database connected...");
 })
 
+app.set("trust proxy", 1);
+
 app.use(session({secret:"abcde12345",proxy:true,name:"Session_Login",resave: false,saveUninitialized: false, store: MongoStore.create({
     mongoUrl:url,
     collectionName:'sessions',
     ttl:1*24*60*60,
     autoRemove:'native',
-    cookie:{secure:true}
+    cookie:{secure:true,sameSite:"none"}
     })}))
 
 
