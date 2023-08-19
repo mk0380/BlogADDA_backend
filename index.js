@@ -87,7 +87,7 @@ app.post('/login',async(req,res)=>{
        if(user){
         const pass_match = await bcrypt.compareSync(password,user.password)
         if(pass_match){
-            req.session.user_id = user._id;
+            // req.session.user_id = user._id;
             req.session.save();
             console.log(req.session.user_id +"LOGIN");
             res.json({
@@ -118,8 +118,8 @@ app.post('/login',async(req,res)=>{
 
 app.post('/logout',(req,res)=>{
     try {
-        console.log(req.session.user_id);
-        req.session.destroy();
+        // console.log(req.session.user_id);
+        // req.session.destroy();
         res.json({
             success:true,
             message:"Logout successfully"
@@ -140,12 +140,15 @@ app.post('/post',uploadMiddleware.single('file'),async (req,res)=>{
         const newPath = path+'.'+ext
         fs.renameSync(path, newPath) 
 
-        const {title, summary, content} = req.body;
-                    console.log("POST")
-                    console.log(req.session[1]+"POST");
+        const {title, summary, content, user} = req.body;
+        const { _id } = await User.findOne({username:user});
+
+        const user_id = _id;
+                    // console.log("POST")
+                    // console.log(req.session[1]+"POST");
 
         const post = new Post({
-            title,summary,content,cover:newPath,author:req.session.user_id
+            title,summary,content,cover:newPath,author:user_id
         })
         console.log(req.session.user_id);
         const data = await post.save();
