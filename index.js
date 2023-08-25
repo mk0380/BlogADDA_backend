@@ -10,6 +10,13 @@ const multer = require('multer')
 const uploadMiddleware = multer({dest:'uploads/'})
 const fs = require('fs')
 const env = require('dotenv')
+const cloudinary  = require('cloudinary')
+
+cloudinary.config({
+    cloud_name:process.env.CLOUD_NAME,
+    api_key:process.env.API_KEY,
+    api_secret:process.env.API_SECRET
+})
 
 const app=express();
 
@@ -134,11 +141,11 @@ app.post('/logout',(req,res)=>{
 
 app.post('/post',uploadMiddleware.single('file'),async (req,res)=>{
     try {
-        const {originalname, path} = req.file;
-        const parts = originalname.split('.')
-        const ext = parts[parts.length-1]
-        const newPath = path+'.'+ext
-        fs.renameSync(path, newPath) 
+        const { url } = await cloudinary.v2.uploader.upload(req.body.file, {
+            folder: "avatars",
+            // width: 150,
+            crop: "scale",
+          }); 
 
         const {title, summary, content, user} = req.body;
         const { _id } = await User.findOne({username:user});
@@ -148,7 +155,7 @@ app.post('/post',uploadMiddleware.single('file'),async (req,res)=>{
                     // console.log(req.session[1]+"POST");
 
         const post = new Post({
-            title,summary,content,cover:newPath,author:user_id
+            title,summary,content,cover:url,author:user_id
         })
         console.log(req.session.user_id);
         const data = await post.save();
@@ -207,12 +214,13 @@ app.put('/post',uploadMiddleware.single('file'),async(req,res)=>{
     try {
 
         let newPath = null;
-        if (req.file) {
-          const {originalname,path} = req.file;
-          const parts = originalname.split('.');
-          const ext = parts[parts.length - 1];
-          newPath = path+'.'+ext;
-          fs.renameSync(path, newPath);
+        if (req.body.file) {
+            const { url } = await cloudinary.v2.uploader.upload(req.body.file, {
+                folder: "avatars",
+                // width: 150,
+                crop: "scale",
+              });
+              newPath = url;
         }
 
         const {id,title,summary,content} = req.body;
